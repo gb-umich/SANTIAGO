@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA7EFD90-544D-4794-9EEE-AADE752AEB01}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Santase.AI.SantiagoPlayer</RootNamespace>
+    <AssemblyName>Santase.AI.SantiagoPlayer</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameSimulation\SimDeck.cs" />
+    <Compile Include="GameSimulation\ISimPlayer.cs" />
+    <Compile Include="GameSimulation\ISimPlayerActionValidator.cs" />
+    <Compile Include="GameSimulation\SimBasePlayer.cs" />
+    <Compile Include="GameSimulation\SimChangeTrumpActionValidator.cs" />
+    <Compile Include="GameSimulation\SimCloseGameActionValodator.cs" />
+    <Compile Include="GameSimulation\SimMoreThanTwoCardsLeftRoundState.cs" />
+    <Compile Include="GameSimulation\SimPlayerActionValidator.cs" />
+    <Compile Include="GameSimulation\ISimStateManager.cs" />
+    <Compile Include="GameSimulation\SimBaseRoundState.cs" />
+    <Compile Include="SimDummyPlayer.cs" />
+    <Compile Include="GameSimulation\SimFinalRoundState.cs" />
+    <Compile Include="GameSimulation\SimPlayerCardActionValidator.cs" />
+    <Compile Include="GameSimulation\SimPlayerTurnContext.cs" />
+    <Compile Include="GameSimulation\SimSantaseGame.cs" />
+    <Compile Include="GameSimulation\SimStartRoundState.cs" />
+    <Compile Include="GameSimulation\SimStateManager.cs" />
+    <Compile Include="GameSimulation\SimTwoCardsLeftRoundState.cs" />
+    <Compile Include="GameSimulation\SimPlayerAction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GameSimulation\SimRoundPlayerInfo.cs" />
+    <Compile Include="GameSimulation\SimRoundResult.cs" />
+    <Compile Include="SantiagoHelper.cs" />
+    <Compile Include="SantiagoPlayer.cs" />
+    <Compile Include="GameSimulation\SimRound.cs" />
+    <Compile Include="GameSimulation\SimTrick.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Santase.Logic\Santase.Logic.csproj">
+      <Project>{c82bebf4-ed79-48fb-a2ab-4e0d1767b95f}</Project>
+      <Name>Santase.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

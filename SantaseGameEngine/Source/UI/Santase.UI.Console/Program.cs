@@ -1,7 +1,8 @@
 ﻿namespace Santase.UI.Console
 {
     using System;
-
+    using AI.DummyPlayer;
+    using AI.SantiagoPlayer;
     using Santase.AI.SmartPlayer;
     using Santase.Logic;
     using Santase.Logic.GameMechanics;
@@ -12,7 +13,7 @@
         public static void Main()
         {
             var game = CreateGameVersusBot();
-            game.Start(PlayerPosition.FirstPlayer);
+            game.Start(PlayerPosition.SecondPlayer);
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -34,7 +35,7 @@
             Console.BufferWidth = Console.WindowWidth = 50;
 
             IPlayer firstPlayer = new ConsolePlayer(5, 10);
-            IPlayer secondPlayer = new SmartPlayer();
+            IPlayer secondPlayer = new SantiagoPlayer();
             ISantaseGame game = new SantaseGame(firstPlayer, secondPlayer);
             return game;
         }

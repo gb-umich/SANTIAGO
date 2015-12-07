@@ -2,7 +2,8 @@
 {
     using System;
 
-    using Santase.AI.SmartPlayer;
+    //using Santase.AI.SmartPlayer;
+    using Logic.GameMechanics;
     using Santase.Tests.GameSimulations.GameSimulators;
 
     public static class Program
@@ -10,14 +11,16 @@
         public static void Main()
         {
             // For easier debugging start a single game:
-            //// new SantaseGame(new SmartPlayer(), new SmartPlayerOld()).Start();
+            //new SantaseGame(new SmartPlayer(), new SmartPlayerOld()).Start();
 
-            SimulateGames(new SmartPlayersGameSimulator());
-            Console.WriteLine("Closed games: {0}", GlobalStats.GamesClosedByPlayer);
+            //SimulateGames(new SmartPlayersGameSimulator());
+            //Console.WriteLine("Closed games: {0}", GlobalStats.GamesClosedByPlayer);
 
-            SimulateGames(new SmartAndDummyPlayerChangingTrumpSimulator());
+            //SimulateGames(new SmartAndDummyPlayerChangingTrumpSimulator());
 
-            SimulateGames(new SmartAndDummyPlayersSimulator());
+            //SimulateGames(new SmartAndDummyPlayersSimulator());
+            //SimulateGames(new SmartAndSantiagoPlayersGameSimulator());
+            SimulateGames(new SantiagoAndDummyPlayersGameSimulator());
         }
 
         private static void SimulateGames(IGameSimulator gameSimulator)

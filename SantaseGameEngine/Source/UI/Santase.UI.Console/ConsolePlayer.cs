@@ -26,6 +26,9 @@
             base.AddCard(card);
 
             Console.SetCursorPosition(this.col, this.row);
+            Console.WriteLine("                           ");
+            Console.SetCursorPosition(this.col, this.row);
+
             foreach (var item in this.Cards)
             {
                 Console.Write("{0} ", item);
@@ -124,6 +127,9 @@
             Console.SetCursorPosition(20, 9);
             Console.WriteLine($"{context.FirstPlayedCard} - {context.SecondPlayedCard}             ");
             Thread.Sleep(3000);
+
+            Console.SetCursorPosition(20, 9);
+            Console.WriteLine($"                  ");
         }
 
         private void PrintGameInfo(PlayerTurnContext context)
@@ -138,7 +144,16 @@
             Console.SetCursorPosition(0, 2);
             Console.WriteLine("Board: {0}{1}              ", context.FirstPlayedCard, context.SecondPlayedCard);
             Console.SetCursorPosition(0, 3);
-            Console.WriteLine("Game state: {0}            ", context.State.GetType().Name);
+            Console.WriteLine("Game state: {0}                       ", context.State.GetType().Name);
+
+            Console.SetCursorPosition(this.col, this.row);
+            Console.WriteLine("                           ");
+            Console.SetCursorPosition(this.col, this.row);
+
+            foreach (var item in this.Cards)
+            {
+                Console.Write("{0} ", item);
+            }
         }
     }
 }

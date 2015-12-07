@@ -51,6 +51,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AI\Santase.AI.DummyPlayer\Santase.AI.DummyPlayer.csproj">
+      <Project>{cc90f6aa-0308-4cf0-95b4-f61b895b62eb}</Project>
+      <Name>Santase.AI.DummyPlayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AI\Santase.AI.SantiagoPlayer\Santase.AI.SantiagoPlayer.csproj">
+      <Project>{da7efd90-544d-4794-9eee-aade752aeb01}</Project>
+      <Name>Santase.AI.SantiagoPlayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AI\Santase.AI.SmartPlayer\Santase.AI.SmartPlayer.csproj">
       <Project>{d58bcb77-06d8-4af0-9f9c-13197475deb2}</Project>
       <Name>Santase.AI.SmartPlayer</Name>
@@ -59,11 +72,6 @@
       <Project>{c82bebf4-ed79-48fb-a2ab-4e0d1767b95f}</Project>
       <Name>Santase.Logic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\build\StyleCop.Analyzers.targets" Condition="Exists('..\..\packages\StyleCop.Analyzers.1.0.0-beta015\build\StyleCop.Analyzers.targets')" />
