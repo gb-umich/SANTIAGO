@@ -1,19 +1,19 @@
 ﻿namespace Santase.AI.SantiagoPlayer
 {
-    using System;
     using System.Collections.Generic;
     using GameSimulation;
     using Santase.Logic.Cards;
     using Santase.Logic.Players;
+    using System.Linq;
+    using Logic;
 
     public class SantiagoPlayer : BasePlayer
     {
         public SantiagoPlayer()
         {
             this.CardsNotInDeck = new HashSet<Card>();
-            this.MonteCarlo = new Dictionary<uint, uint>();
+            this.MonteCarlo = new Dictionary<uint, Card>();
         }
-
 
         public override string Name
         {
@@ -25,30 +25,37 @@
 
         private HashSet<Card> CardsNotInDeck { get; set; }
 
-        private Dictionary<uint, uint> MonteCarlo { get; set; }
+        private Dictionary<uint, Card> MonteCarlo { get; set; }
 
         public override PlayerAction GetTurn(PlayerTurnContext context)
         {
             //if (this.PlayerActionValidator.IsValid(PlayerAction.ChangeTrump(), context, this.Cards))
             //{
+            //    this.CardsNotInDeck.Add(context.TrumpCard);
+
+            //    this.CardsNotInDeck.RemoveWhere(c => c.Suit == context.TrumpCard.Suit && c.Type == CardType.Nine);
+
             //    return this.ChangeTrump(context.TrumpCard);
             //}
 
-            var card = this.GetCardToPlay(context);
-
-            return this.PlayCard(card);
-        }
-
-        private Card GetCardToPlay(PlayerTurnContext context)
-        {
             foreach (var card in this.Cards)
             {
-                if (!CardsNotInDeck.Contains(card))
+                if (card.Type == CardType.King &&
+                    (this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Forty ||
+                     this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Twenty))
                 {
-                    this.CardsNotInDeck.Add(card);
+                    this.Cards.Remove(card);
+                    return this.PlayCard(card);
                 }
             }
 
+            var bestCard = this.GetCardToPlay(context);
+
+            return this.PlayCard(bestCard);
+        }
+
+        public override void EndTurn(PlayerTurnContext context)
+        {
             if (context.FirstPlayedCard != null)
             {
                 this.CardsNotInDeck.Add(context.FirstPlayedCard);
@@ -58,45 +65,13 @@
             {
                 this.CardsNotInDeck.Add(context.SecondPlayedCard);
             }
-            
-            var validCards = this.GetValidCards(context);
-
-            var hashedHand = this.GetHash(this.Cards, this.CardsNotInDeck);
-
-            if (this.MonteCarlo.ContainsKey(hashedHand))
-            {
-                for (int i = 0; i < validCards.Count; i++)
-                {
-                    var cardHash = this.GetTwoNumberHash((uint)validCards[i].Type, (uint)validCards[i].Suit);
-
-                    if (cardHash == this.MonteCarlo[hashedHand])
-                    {
-                        return validCards[i];
-                    }
-                }
-            }
-
-            float bestActionProbability = float.MinValue;
-            int bestActionIndex = 0;
-
-            var currentContext = GetCurrentContext(context);
-            var helper = new SantiagoHelper(this.Cards);
-            for (int i = 0; i < validCards.Count; i++)
-            {
-                var probability = helper.GetProbability(currentContext, validCards[i], this.CardsNotInDeck, this.Cards);
-
-                if (probability >= bestActionProbability)
-                {
-                    bestActionProbability = probability;
-                    bestActionIndex = i;
-                }
-            }
-
-            this.MonteCarlo[hashedHand] = this.GetTwoNumberHash((uint)validCards[bestActionIndex].Type, (uint)validCards[bestActionIndex].Suit);
-
-            return validCards[bestActionIndex];
         }
 
+        public override void EndRound()
+        {
+            this.CardsNotInDeck.Clear();
+            base.EndRound();
+        }
 
         private static SimPlayerTurnContext GetCurrentContext(PlayerTurnContext context)
         {
@@ -136,6 +111,64 @@
             return currentContext;
         }
 
+        private Card GetCardToPlay(PlayerTurnContext context)
+        {
+            foreach (var card in this.Cards)
+            {
+                if (!this.CardsNotInDeck.Contains(card))
+                {
+                    this.CardsNotInDeck.Add(card);
+                }
+            }
+
+            if (context.FirstPlayedCard != null)
+            {
+                this.CardsNotInDeck.Add(context.FirstPlayedCard);
+            }
+
+            if (context.SecondPlayedCard != null)
+            {
+                this.CardsNotInDeck.Add(context.SecondPlayedCard);
+            }
+
+            var validCards = this.GetValidCards(context);
+
+            var hashedHand = this.GetHash(this.Cards, this.CardsNotInDeck);
+
+            if (this.MonteCarlo.ContainsKey(hashedHand))
+            {
+                for (int i = 0; i < validCards.Count; i++)
+                {
+                    var cardHash = this.GetTwoNumberHash((uint)validCards[i].Type, (uint)validCards[i].Suit);
+
+                    if (validCards[i] == this.MonteCarlo[hashedHand])
+                    {
+                        return validCards[i];
+                    }
+                }
+            }
+
+            float bestActionProbability = float.MinValue;
+            int bestActionIndex = 0;
+
+            var currentContext = GetCurrentContext(context);
+            var helper = new SantiagoHelper(this.Cards);
+            for (int i = 0; i < validCards.Count; i++)
+            {
+                var probability = helper.GetProbability(currentContext, validCards[i], this.CardsNotInDeck, this.Cards);
+
+                if (probability >= bestActionProbability)
+                {
+                    bestActionProbability = probability;
+                    bestActionIndex = i;
+                }
+            }
+
+            this.MonteCarlo[hashedHand] = validCards[bestActionIndex];
+
+            return validCards[bestActionIndex];
+        }
+
         private List<Card> GetValidCards(PlayerTurnContext context)
         {
             List<Card> validCards = new List<Card>();
@@ -151,32 +184,13 @@
             return validCards;
         }
 
-        public override void EndTurn(PlayerTurnContext context)
-        {
-            if (context.FirstPlayedCard != null)
-            {
-                this.CardsNotInDeck.Add(context.FirstPlayedCard);
-            }
-
-            if (context.SecondPlayedCard != null)
-            {
-                this.CardsNotInDeck.Add(context.SecondPlayedCard);
-            }
-        }
-
-        public override void EndRound()
-        {
-            this.CardsNotInDeck.Clear();
-            base.EndRound();
-        }
-
         private uint GetHash(ICollection<Card> playerCards, HashSet<Card> notInDeck)
         {
             uint playerHash = 0;
             foreach (var card in playerCards)
             {
-                var hashed = GetTwoNumberHash((uint)card.Type, (uint)card.Suit);
-                var reversed = ReverseBits(hashed);
+                var hashed = this.GetTwoNumberHash((uint)card.Type, (uint)card.Suit);
+                var reversed = this.ReverseBits(hashed);
 
                 playerHash += reversed;
             }
@@ -184,13 +198,13 @@
             uint notInDeckHash = 0;
             foreach (var card in notInDeck)
             {
-                var hashed = GetTwoNumberHash((uint)card.Type, (uint)card.Suit);
-                var reversed = ReverseBits(hashed);
+                var hashed = this.GetTwoNumberHash((uint)card.Type, (uint)card.Suit);
+                var reversed = this.ReverseBits(hashed);
 
                 notInDeckHash += reversed;
             }
 
-            return GetTwoNumberHash(playerHash, notInDeckHash);
+            return this.GetTwoNumberHash(playerHash, notInDeckHash);
         }
 
         private uint GetTwoNumberHash(uint n1, uint n2)

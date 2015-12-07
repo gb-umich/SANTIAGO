@@ -67,7 +67,7 @@
 
             SimRoundPlayerInfo lastTrickWinner;
 
-            lastTrickWinner =  this.PlayFirstTrickSimulation(firstAction, secondAction);
+            lastTrickWinner = this.PlayFirstTrickSimulation(firstAction, secondAction);
 
             while (!this.IsFinished())
             {
@@ -81,7 +81,7 @@
 
             this.firstPlayer.Player.EndRound();
             this.secondPlayer.Player.EndRound();
-            
+
             return new SimRoundResult(this.firstPlayer, this.secondPlayer, lastTrickWinner);
         }
 
@@ -129,7 +129,7 @@
                         this.GiveCardToPlayer(this.secondPlayer);
                         this.GiveCardToPlayer(this.firstPlayer);
                     }
-                }                
+                }
             }
 
             this.stateManager.State.PlayHand(this.deck.CardsLeft);
@@ -246,6 +246,11 @@
             // TODO: 6 should be constant
             for (var i = 0; i < 6; i++)
             {
+                if (this.deck.CardsLeft == 0)
+                {
+                    break;
+                }
+
                 var card = this.deck.GetNextCard();
                 cards.Add(card);
                 player.Cards.Add(card);

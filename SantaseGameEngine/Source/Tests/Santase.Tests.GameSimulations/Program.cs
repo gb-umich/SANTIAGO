@@ -1,9 +1,6 @@
 ﻿namespace Santase.Tests.GameSimulations
 {
     using System;
-
-    //using Santase.AI.SmartPlayer;
-    using Logic.GameMechanics;
     using Santase.Tests.GameSimulations.GameSimulators;
 
     public static class Program
@@ -19,7 +16,8 @@
             //SimulateGames(new SmartAndDummyPlayerChangingTrumpSimulator());
 
             //SimulateGames(new SmartAndDummyPlayersSimulator());
-            //SimulateGames(new SmartAndSantiagoPlayersGameSimulator());
+
+            SimulateGames(new SmartAndSantiagoPlayersGameSimulator());
             SimulateGames(new SantiagoAndDummyPlayersGameSimulator());
         }
 
@@ -27,7 +25,7 @@
         {
             Console.WriteLine($"Running {gameSimulator.GetType().Name}...");
 
-            var simulationResult = gameSimulator.Simulate(100000);
+            var simulationResult = gameSimulator.Simulate(20);
 
             Console.WriteLine(simulationResult.SimulationDuration);
             Console.WriteLine($"Total games: {simulationResult.FirstPlayerWins:0,0} - {simulationResult.SecondPlayerWins:0,0}");

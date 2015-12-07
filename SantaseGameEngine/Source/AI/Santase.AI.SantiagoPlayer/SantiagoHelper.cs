@@ -1,26 +1,17 @@
 ﻿namespace Santase.AI.SantiagoPlayer
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Logic.Extensions;
     using GameSimulation;
+    using Logic.Extensions;
     using Santase.Logic;
     using Santase.Logic.Cards;
 
     internal class SantiagoHelper : SimBasePlayer
     {
-        public const int NumberOfPlayouts = 50;
-
-        //public static Dictionary<CardType, int> CardRank = new Dictionary<CardType, int>()
-        //{
-        //    { CardType.Nine, 1 },
-        //    { CardType.Jack, 2 },
-        //    { CardType.Queen, 3 },
-        //    { CardType.King, 4 },
-        //    { CardType.Ten, 5 },
-        //    { CardType.Ace, 6 },
-        //};
+        private const int MaxPoints = 66;
+        private const int HalfPoints = 33;
+        private const int NumberOfPlayouts = 100;
 
         public SantiagoHelper()
         {
@@ -56,33 +47,38 @@
             float value = 0;
             for (int play = 0; play < NumberOfPlayouts; ++play)
             {
-                this.Cards = new List<Card>(cards);
-                var currentDeck = new SimDeck(cardsNotInDeck, context.TrumpCard);
+                var currentContext = context.DeepClone();
 
-                var firstAction = (context.FirstPlayedCard != null) ? SimPlayerAction.PlayCard(context.FirstPlayedCard) : null;
+                this.Cards = new List<Card>(cards);
+                var currentDeck = new SimDeck(cardsNotInDeck, currentContext.TrumpCard);
+
+                var firstAction = (currentContext.FirstPlayedCard != null) ? SimPlayerAction.PlayCard(currentContext.FirstPlayedCard) : null;
                 var secondAction = (card == null) ? SimPlayerAction.CloseGame() : SimPlayerAction.PlayCard(card);
 
                 var playAction = (card == null) ? this.CloseGame() : this.PlayCard(card);
 
-
                 var firstPlayer = new SimDummyPlayer();
 
-                var opponentCardsNumber = (context.FirstPlayedCard == null) ? this.Cards.Count + 1 : this.Cards.Count;
+                var opponentCardsNumber = (currentContext.FirstPlayedCard == null) ? this.Cards.Count + 1 : this.Cards.Count;
 
                 for (int i = 0; i < opponentCardsNumber; i++)
                 {
+                    if (currentDeck.CardsLeft == 0)
+                    {
+                        break;
+                    }
+
                     firstPlayer.AddCard(currentDeck.GetNextCard());
                 }
 
                 var stateManager = new SimStateManager();
-                stateManager.SetState(context.State);
+                stateManager.SetState(currentContext.State);
                 var round = new SimRound(firstPlayer, this, GameRulesProvider.Santase, currentDeck, stateManager);
 
-                var currentContext = context.DeepClone();
 
                 var result = round.PlaySimulation(
-                                                    context.FirstPlayerRoundPoints,
-                                                    context.SecondPlayerRoundPoints,
+                                                    currentContext.FirstPlayerRoundPoints,
+                                                    currentContext.SecondPlayerRoundPoints,
                                                     firstAction,
                                                     secondAction,
                                                     firstPlayer.Cards,
@@ -98,9 +94,9 @@
 
         private float Expand(SimRoundResult result)
         {
-            if (result.SecondPlayer.RoundPoints >= 66)
+            if (result.SecondPlayer.RoundPoints >= MaxPoints)
             {
-                if (result.FirstPlayer.RoundPoints < 33)
+                if (result.FirstPlayer.RoundPoints < HalfPoints)
                 {
                     return 2;
                 }
@@ -109,9 +105,9 @@
                     return 1;
                 }
             }
-            else if (result.FirstPlayer.RoundPoints >= 66)
+            else if (result.FirstPlayer.RoundPoints >= MaxPoints)
             {
-                if (result.SecondPlayer.RoundPoints < 33)
+                if (result.SecondPlayer.RoundPoints < HalfPoints)
                 {
                     return -2;
                 }

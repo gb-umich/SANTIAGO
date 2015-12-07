@@ -1,15 +1,12 @@
 ﻿namespace Santase.AI.SantiagoPlayer
 {
     using System.Linq;
-    using Logic.Cards;
-    using Logic;
-    using Santase.Logic.Extensions;
-    using Santase.Logic.Players;
     using GameSimulation;
+    using Santase.Logic.Extensions;
 
     public class SimDummyPlayer : SimBasePlayer
     {
-        public SimDummyPlayer(string name = "Dummy Player Lvl. 1")
+        public SimDummyPlayer(string name = "Dummy")
         {
             this.Name = name;
         }
