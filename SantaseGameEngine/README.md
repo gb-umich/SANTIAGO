@@ -7,7 +7,7 @@ It is a fast **6-card game** for **2 players** played with a deck of 24 cards co
 
 #### Monte Carlo Tree Search
 
-- **Monte Carlo Tree Search** is a general heuristic algorithm that does not require game specific knowledge and can be used for games with high-branching factor (with some optimization the complexity is ~ $O(log(n))$). 
+- **Monte Carlo Tree Search** is a general heuristic algorithm that does not require game specific knowledge and can be used for games with high-branching factor (with some optimization the complexity is ~ ``O(log(n))``). 
 
 - It does not give a perfect solution, but rather an approximation. It can be adapted for a lot of games where there is a certain amount of randomness.
 
