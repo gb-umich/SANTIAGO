@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
 
-    using Santase.Logic.Cards;
     using Logic.PlayerActionValidate;
+    using Santase.Logic.Cards;
     using Santase.Logic.Players;
 
     public class SimPlayerActionValidator : ISimPlayerActionValidator

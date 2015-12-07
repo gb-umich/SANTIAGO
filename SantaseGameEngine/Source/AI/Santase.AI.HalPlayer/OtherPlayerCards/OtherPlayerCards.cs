@@ -1,13 +1,16 @@
 ﻿namespace Santase.AI.HalPlayer.OtherPlayerCards
-{                      
+{
     using System.Collections.Generic;
 
     using Santase.Logic.Cards;
 
     public class OtherPlayerCards
     {
-        public ICollection<Card> GetOtherPlayerCards(IDictionary<int, Card> myCards,
-            IDictionary<int, Card> playedCards, Card activeTrumpCard, CardSuit suit)
+        public ICollection<Card> GetOtherPlayerCards(
+            IDictionary<int, Card> myCards,
+            IDictionary<int, Card> playedCards,
+            Card activeTrumpCard,
+            CardSuit suit)
         {
             var otherPlayerCards = new CardCollection
                                   {

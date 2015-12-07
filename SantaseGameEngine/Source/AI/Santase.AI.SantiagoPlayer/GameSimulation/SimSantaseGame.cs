@@ -1,7 +1,7 @@
 ﻿namespace Santase.AI.SantiagoPlayer.GameSimulation
 {
-    using Logic.GameMechanics;
     using Logic;
+    using Logic.GameMechanics;
     using Santase.Logic.Logger;
     using Santase.Logic.Players;
     using Santase.Logic.WinnerLogic;

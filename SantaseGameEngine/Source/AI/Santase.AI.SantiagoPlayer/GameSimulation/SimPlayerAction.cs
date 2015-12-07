@@ -1,8 +1,8 @@
 ﻿namespace Santase.AI.SantiagoPlayer.GameSimulation
 {
-    using Santase.Logic.Cards;
-    using Logic.Players;
     using Logic;
+    using Logic.Players;
+    using Santase.Logic.Cards;
 
     public sealed class SimPlayerAction
         {

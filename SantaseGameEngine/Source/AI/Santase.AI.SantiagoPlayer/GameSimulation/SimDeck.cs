@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Logic.Cards;
     using Logic;
+    using Logic.Cards;
     using Santase.Logic.Extensions;
 
     public class SimDeck : IDeck
@@ -51,9 +51,9 @@
             this.listOfCards = AllCards.Shuffle().ToList();
             for (int i = this.listOfCards.Count - 1; i >= 0; i--)
             {
-                if (notInDeck.Contains(listOfCards[i]))
+                if (notInDeck.Contains(this.listOfCards[i]))
                 {
-                    listOfCards.RemoveAt(i);
+                    this.listOfCards.RemoveAt(i);
                 }
             }
 

@@ -36,7 +36,7 @@
         {
             if (!this.playedCards.ContainsKey(context.FirstPlayedCard.GetHashCode()))
             {
-                this.playedCards[context.FirstPlayedCard.GetHashCode()] = 
+                this.playedCards[context.FirstPlayedCard.GetHashCode()] =
                     new Card(context.FirstPlayedCard.Suit, context.FirstPlayedCard.Type);
             }
 
@@ -50,7 +50,6 @@
 
             this.playedCards[context.SecondPlayedCard.GetHashCode()] = context.SecondPlayedCard;
         }
-
 
         private PlayerAction NextCardToPlay(PlayerTurnContext context)
         {

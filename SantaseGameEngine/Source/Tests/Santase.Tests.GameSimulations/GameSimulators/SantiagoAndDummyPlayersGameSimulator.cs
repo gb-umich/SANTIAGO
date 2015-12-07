@@ -1,7 +1,7 @@
 ﻿namespace Santase.Tests.GameSimulations.GameSimulators
 {
-    using AI.SantiagoPlayer;
     using AI.DummyPlayer;
+    using AI.SantiagoPlayer;
     using Santase.AI.SmartPlayer;
     using Santase.Logic.GameMechanics;
     using Santase.Logic.Players;

@@ -1,11 +1,11 @@
 ﻿namespace Santase.AI.SantiagoPlayer
 {
     using System.Collections.Generic;
+
     using GameSimulation;
+    using Logic;
     using Santase.Logic.Cards;
     using Santase.Logic.Players;
-    using System.Linq;
-    using Logic;
 
     public class SantiagoPlayer : BasePlayer
     {

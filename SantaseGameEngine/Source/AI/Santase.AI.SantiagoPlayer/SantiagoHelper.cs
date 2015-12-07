@@ -84,7 +84,7 @@
                                                     firstPlayer.Cards,
                                                     this.Cards);
 
-                value += Expand(result);
+                value += this.Expand(result);
             }
 
             value = value / NumberOfPlayouts;
