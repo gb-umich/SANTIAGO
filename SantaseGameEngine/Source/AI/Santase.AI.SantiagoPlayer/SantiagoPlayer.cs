@@ -38,16 +38,16 @@
             //    return this.ChangeTrump(context.TrumpCard);
             //}
 
-            foreach (var card in this.Cards)
-            {
-                if (card.Type == CardType.King &&
-                    (this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Forty ||
-                     this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Twenty))
-                {
-                    this.Cards.Remove(card);
-                    return this.PlayCard(card);
-                }
-            }
+            //foreach (var card in this.Cards)
+            //{
+            //    if (card.Type == CardType.King &&
+            //        (this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Forty ||
+            //         this.AnnounceValidator.GetPossibleAnnounce(this.Cards, card, context.TrumpCard) == Announce.Twenty))
+            //    {
+            //        this.Cards.Remove(card);
+            //        return this.PlayCard(card);
+            //    }
+            //}
 
             var bestCard = this.GetCardToPlay(context);
 
